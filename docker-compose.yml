@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  # BACKEND API
+  smart-brain-api:
+    container_name: backend
+    build: ./
+    command: npm start
+    working_dir: /usr/src/smart-brain-api
+    environment:
+      POSTGRES_URI: postgres://sally:secret@postgres:5432/smart_brain_docker
+    ports:
+      - "3000:3000"
+    #  Stupid firewall doesn't let us use the volumes!!!!
+    # volumes:
+    # - ./:/usr/src/smart-brain-api
+    links:
+      # Make sure both services get to know each other in the pan!
+      - postgres
+  postgres:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: sally
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: smart_brain_docker
+      # name of the service, it's linked bellow in links
+      POSTGRES_HOST: postgres
