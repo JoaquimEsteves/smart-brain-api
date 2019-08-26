@@ -18,7 +18,7 @@ services:
       # Make sure both services get to know each other in the pan!
       - postgres
   postgres:
-    image: postgres
+    build: ./postgres
     ports:
       - "5432:5432"
     environment:
